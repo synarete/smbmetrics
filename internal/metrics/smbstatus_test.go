@@ -166,7 +166,7 @@ var (
 			  "unique_id": "10756714984493602300"
 			},
 			"uid": 1000,
-			"share_file_id": 2,
+			"share_file_id": "2",
 			"sharemode": {
 			  "hex": "0x00000003",
 			  "NONE": false,
@@ -286,7 +286,7 @@ var (
 			  "unique_id": "7364797719700910696"
 			},
 			"uid": 1000,
-			"share_file_id": 61,
+			"share_file_id": "61",
 			"sharemode": {
 			  "hex": "0x00000007",
 			  "NONE": false,
@@ -357,7 +357,7 @@ var (
 			  "unique_id": "7364797719700910696"
 			},
 			"uid": 1000,
-			"share_file_id": 65,
+			"share_file_id": "65",
 			"sharemode": {
 			  "hex": "0x00000007",
 			  "NONE": false,
