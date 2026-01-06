@@ -86,12 +86,12 @@ jobs:
         run: >
           ${{ env.CONTAINER_CMD }} manifest add \
             samba-metrics:${{ env.IMG_TAG_PREFIX }}-any --arch=amd64 \
-            localhost/samba-metrics:${{ env.IMG_TAG_PREFIX }}-amd64
+            samba-metrics:${{ env.IMG_TAG_PREFIX }}-amd64
       - name: Add ARM64 image
         run: >
           ${{ env.CONTAINER_CMD }} manifest add \
             samba-metrics:${{ env.IMG_TAG_PREFIX }}-any --arch=arm64 \
-            localhost/samba-metrics:${{ env.IMG_TAG_PREFIX }}-arm64
+            samba-metrics:${{ env.IMG_TAG_PREFIX }}-arm64
       - name: List images (debug)
         run: ${{ env.CONTAINER_CMD }} images
       - name: Inspect image
