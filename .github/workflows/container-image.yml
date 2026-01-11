@@ -1,16 +1,17 @@
 name: Images
 on:
   push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-  workflow_run:
-    workflows: ["CI"]
-    types:
-      - completed
+    branches: [ss-container-image-test]
+#  pull_request:
+#    branches: [main]
+#  workflow_run:
+#    workflows: ["CI"]
+#    types:
+#      - completed
 env:
   BUILDAH_FORMAT: oci
-  IMG_URL: quay.io/samba.org/samba-metrics
+#  IMG_URL: quay.io/samba.org/samba-metrics
+  IMG_URL: quay.io/ssharon/test
 jobs:
   build-image-per-cpu-arch:
     strategy:
@@ -20,33 +21,8 @@ jobs:
         arch:
           - {name: amd64, host: ubuntu-24.04}
           - {name: arm64, host: ubuntu-24.04-arm}
-        include:
-          - package_source: default
-            os: centos
-            arch: {name: amd64, host: ubuntu-24.04}
-          - package_source: default
-            os: centos
-            arch: {name: arm64, host: ubuntu-24.04-arm}
-          - package_source: nightly
-            os: centos
-            arch: {name: amd64, host: ubuntu-24.04}
-          - package_source: nightly
-            os: centos
-            arch: {name: arm64, host: ubuntu-24.04-arm}
-          - package_source: devbuilds
-            os: centos
-            arch: {name: amd64, host: ubuntu-24.04}
-          - package_source: devbuilds
-            os: centos
-            arch: {name: arm64, host: ubuntu-24.04-arm}
-          - package_source: ceph20
-            os: centos
-            arch: {name: amd64, host: ubuntu-24.04}
-          - package_source: ceph20
-            os: centos
-            arch: {name: arm64, host: ubuntu-24.04-arm}
     runs-on: ${{ matrix.arch.host }}
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     env:
       BASE_IMG_TAG: ${{ matrix.package_source }}-${{ matrix.os }}-${{ matrix.arch.name }}
       IMG_TAG: ${{ matrix.package_source }}-${{ matrix.os }}-${{ matrix.arch.name }}
