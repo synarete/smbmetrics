@@ -33,7 +33,7 @@ func newKClient() (*kclient, error) {
 	}
 	cset, err := kubernetes.NewForConfig(cfg)
 	if err != nil {
-		return &kclient{}, err
+		return nil, err
 	}
 
 	return &kclient{
@@ -45,11 +45,11 @@ func newKClient() (*kclient, error) {
 func newExternalClient() (*kclient, error) {
 	config, err := buildOutOfClusterConfig()
 	if err != nil {
-		return &kclient{}, err
+		return nil, err
 	}
 	cset, err := kubernetes.NewForConfig(config)
 	if err != nil {
-		return &kclient{}, err
+		return nil, err
 	}
 
 	return &kclient{

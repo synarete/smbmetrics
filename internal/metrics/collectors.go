@@ -77,7 +77,10 @@ func (col *smbVersionsCollector) Collect(ch chan<- prometheus.Metric) {
 func (sme *smbMetricsExporter) newSMBVersionsCollector() prometheus.Collector {
 	col := &smbVersionsCollector{}
 	col.sme = sme
-	col.clnt, _ = newKClient()
+	clnt, err := newKClient()
+	if err == nil {
+		col.clnt = clnt
+	}
 	col.dsc = []*prometheus.Desc{
 		prometheus.NewDesc(
 			collectorName("metrics", "status"),
