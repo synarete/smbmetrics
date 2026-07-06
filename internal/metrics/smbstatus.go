@@ -292,6 +292,9 @@ func LocateSMBStatus() (string, error) {
 			return loc, nil
 		}
 	}
+	if loc, err := exec.LookPath("smbstatus"); err == nil {
+		return loc, nil
+	}
 	return "", errors.New("failed to locate smbstatus")
 }
 
