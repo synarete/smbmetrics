@@ -20,23 +20,23 @@ var (
 )
 
 type smbMetricsExporter struct {
-	log           logr.Logger
-	reg           *prometheus.Registry
-	mux           *http.ServeMux
-	port          int
-	bindAddresses []net.IP
-	profile       bool
+	log         logr.Logger
+	reg         *prometheus.Registry
+	mux         *http.ServeMux
+	port        int
+	bindAddress *net.IP
+	profile     bool
 }
 
 func newSmbMetricsExporter(
-	log logr.Logger, port int, bindAddresses []net.IP, profile bool) *smbMetricsExporter {
+	log logr.Logger, port int, bindAddress *net.IP, profile bool) *smbMetricsExporter {
 	return &smbMetricsExporter{
-		log:           log,
-		reg:           prometheus.NewRegistry(),
-		mux:           http.NewServeMux(),
-		port:          port,
-		bindAddresses: bindAddresses,
-		profile:       profile,
+		log:         log,
+		reg:         prometheus.NewRegistry(),
+		mux:         http.NewServeMux(),
+		port:        port,
+		bindAddress: bindAddress,
+		profile:     profile,
 	}
 }
 
@@ -47,13 +47,10 @@ func (sme *smbMetricsExporter) init() error {
 
 func (sme *smbMetricsExporter) serve() error {
 	var addr string
-	switch len(sme.bindAddresses) {
-	case 0:
+	if sme.bindAddress == nil {
 		addr = fmt.Sprintf(":%d", sme.port)
-	case 1:
-		addr = fmt.Sprintf("%s:%d", sme.bindAddresses[0], sme.port)
-	default:
-		return fmt.Errorf("too many listen addresses")
+	} else {
+		addr = fmt.Sprintf("%s:%d", *sme.bindAddress, sme.port)
 	}
 	sme.log.Info("serve metrics", "addr", addr)
 
@@ -77,11 +74,11 @@ func (sme *smbMetricsExporter) serve() error {
 // RunSmbMetricsExporter executes an HTTP server and exports SMB metrics to
 // Prometheus.
 func RunSmbMetricsExporter(
-	log logr.Logger, port int, bindAddresses []net.IP, profile bool) error {
+	log logr.Logger, port int, bindAddress *net.IP, profile bool) error {
 	if port <= 0 {
 		port = DefaultMetricsPort
 	}
-	sme := newSmbMetricsExporter(log, port, bindAddresses, profile)
+	sme := newSmbMetricsExporter(log, port, bindAddress, profile)
 	err := sme.init()
 	if err != nil {
 		return err

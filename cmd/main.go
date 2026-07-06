@@ -69,12 +69,12 @@ func main() {
 	}
 	log.Info("Located smbstatus", "path", loc, "version", ver)
 
-	var bindAddrs []net.IP
+	var bindAddr *net.IP
 	if len(bindAddress) > 0 {
-		bindAddrs = append(bindAddrs, bindAddress)
-		log.Info("User supplied bind addresses", "bindAddrs", bindAddrs)
+		bindAddr = &bindAddress
+		log.Info("User supplied bind address", "bindAddr", bindAddr)
 	}
-	err = metrics.RunSmbMetricsExporter(log, port, bindAddrs, !noProfile)
+	err = metrics.RunSmbMetricsExporter(log, port, bindAddr, !noProfile)
 	if err != nil {
 		os.Exit(1)
 	}
